@@ -17,6 +17,28 @@ try{
     echo "" , $th ->getMessage(),"";
 }
 
+if(isset($_GET["delId"])){
+
+  $delId = $_GET["delId"];
+  echo $_GET["delId"];
+
+  $deleteQuery = "DELETE FROM `products` WHERE `prod_id` ='$delId'";
+
+  $delResult = mysqli_query($db, $deleteQuery);
+
+  if($delResult){
+    echo "Item Deleted Sucessfully";
+  }else{
+    echo "<script>alert('Item Deletion failed')</script>";
+    
+  }
+
+
+}
+
+
+
+
 ?>
 
 
@@ -34,8 +56,8 @@ try{
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
-    <title>All products</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css" integrity="sha512-ApSLB1Pd3/bZN8fWB/RG9YhN/7bd9Hkf3AGaE2mPfebjrxagjuBtx2GcgdqIlJkUzwylBo61r9Xa9NmgBI0swA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<title>All products</title>
   </head>
   <body>
     <h1 class="text-center" >View Products</h1>
@@ -48,6 +70,7 @@ try{
       <th scope="col">Products Name</th>
       <th scope="col">Products Price</th>
       <th scope="col">Products Description</th>
+      <th scope="col">Action</th>
     </tr>
   </thead>
   <tbody>
@@ -57,6 +80,7 @@ try{
       <td><?=$value["prod_name"] ?></td>
       <td><?=$value["prod_price"] ?></td>
       <td><?=$value["prod_desc"] ?></td>
+      <td><a href="viewproducts.php?delId=<?=$value["prod_id"] ?>" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a></td>
     </tr>
   <?php } ?>
 
