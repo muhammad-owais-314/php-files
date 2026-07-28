@@ -28,6 +28,8 @@ if(isset($_GET["delId"])){
 
   if($delResult){
     echo "Item Deleted Sucessfully";
+    echo "<script>alert(location.href='viewProducts.php'</script>";
+
   }else{
     echo "<script>alert('Item Deletion failed')</script>";
     
@@ -80,7 +82,10 @@ if(isset($_GET["delId"])){
       <td><?=$value["prod_name"] ?></td>
       <td><?=$value["prod_price"] ?></td>
       <td><?=$value["prod_desc"] ?></td>
-      <td><a href="viewproducts.php?delId=<?=$value["prod_id"] ?>" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a></td>
+      <td>
+        <a href="viewproducts.php?delId=<?=$value["prod_id"] ?>" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
+        <a href="updateproducts.php?upId=<?=$value["prod_id"] ?>" class="btn btn-warning"><i class="fa-solid fa-pen-to-square"></i></a>
+      </td>
     </tr>
   <?php } ?>
 
