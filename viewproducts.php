@@ -91,6 +91,8 @@ if(isset($_GET["delId"])){
 
   </tbody>
 </table>
+
+ <a href="addproducts.php">go to add page</a>
     </div>
 
     <!-- Optional JavaScript; choose one of the two! -->
