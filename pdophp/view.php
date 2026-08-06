@@ -95,13 +95,14 @@ if(isset($_GET["delId"])){
       <td><?=$value["prod_desc"] ?></td>
       <td>
         <a href="view.php?delId=<?=$value["prod_id"] ?>" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
-        <a href="updateproducts.php?upId=<?=$value["prod_id"] ?>" class="btn btn-warning"><i class="fa-solid fa-pen-to-square"></i></a>
+        <a href="update.php?upId=<?=$value["prod_id"] ?>" class="btn btn-warning"><i class="fa-solid fa-pen-to-square"></i></a>
       </td>
     </tr>
   <?php } ?>
 
   </tbody>
 </table>
+<a href="create.php">go to create page</a>
 </div>
 
 
