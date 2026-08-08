@@ -8,20 +8,16 @@ include("connection.php");
 
 
 if(isset($_GET["upId"])){
-  try {
     $upId = $_GET["upId"];
+  try {
 
-$updateQuery = "UPDATE `products` SET `prod_name`=:prodName,`prod_price`=:prodPrice,`prod_desc`=:prodDesc WHERE `prod_id` = $upId";
-  $updateQueryPrepare = $connection->prepare($updateQuery);
- $updateQueryPrepare->bindParam(":prodName", $prodName, PDO::PARAM_STR);
-$updateQueryPrepare->bindParam(":prodPrice", $prodPrice, PDO::PARAM_INT);
-$updateQueryPrepare->bindParam(":prodDesc", $prodDesc, PDO::PARAM_STR);
-$updateQueryPrepare->bindParam(":upId", $upId, PDO::PARAM_INT);
-  if($updateQueryPrepare->execute()){
-    echo "<script>location.href='update.php'</script>";
-  }else{
-     echo "Products is not deleted";    
-  }
+$selectQuery = "SELECT * FROM `products` WHERE `prod_id` = :upId";
+$selectQueryprepare = $connection->prepare($selectQuery);
+$selectQueryprepare->bindParam(":upId", $upId, PDO::PARAM_INT);
+$selectQueryprepare->execute();
+
+$products = $selectQueryprepare->fetch(PDO::FETCH_ASSOC);
+ 
 
 
 } catch (\Throwable $th) {
@@ -42,26 +38,24 @@ try {
         $prodDesc = $_POST["prodDesc"];
 
 
-        $insertQuery = "INSERT INTO `products`(`prod_name`, `prod_price`, `prod_desc`) VALUES (:prodName, :prodPrice, :prodDesc)";
+      $updateQuery = "UPDATE `products` SET `prod_name`=:prodName,`prod_price`=:prodPrice,`prod_desc`=:prodDesc WHERE `prod_id` = :upId";
 
         // bindParam: to specify the value like integer,string etc 
         // USE ARROW FOR FUNCTION/METHOD IN PDO
         // 3 THINGS REQ (PARAMETER, VALUE, DATA TYPE)
         // WE CAN USE ANY NAME FOR PARAMETERS
+ $updateQueryPrepare = $connection->prepare($updateQuery);
+ $updateQueryPrepare->bindParam(":prodName", $prodName, PDO::PARAM_STR);
+$updateQueryPrepare->bindParam(":prodPrice", $prodPrice, PDO::PARAM_INT);
+$updateQueryPrepare->bindParam(":prodDesc", $prodDesc, PDO::PARAM_STR);
+$updateQueryPrepare->bindParam(":upId", $upId, PDO::PARAM_INT);
+  
 
-        $insertPrepare= $connection->prepare($insertQuery);
-        $insertPrepare->bindParam(":prodName", $prodName, PDO::PARAM_STR);
-        $insertPrepare->bindParam(":prodPrice", $prodPrice, PDO::PARAM_INT);
-        $insertPrepare->bindParam(":prodDesc", $prodDesc, PDO::PARAM_STR);
-      
-
-        if($insertPrepare->execute()){
-            echo "Product Inserted Successfully!";
-        }
-        else {
-            echo "Product Insertion Failed!";
-        }
-
+  if($updateQueryPrepare->execute()){
+    echo "<script>location.href='view.php'</script>";
+  }else{
+     echo "Products is not deleted";    
+  }
 
     }
 
@@ -87,20 +81,20 @@ try {
         <form class="row g-3" method="post">
   <div class="col-md-6">
     <label for="inputEmail4" class="form-label">Product Name</label>
-    <input type="text" value="<?= $data['prod_name'] ?>"  name="prodName" class="form-control" id="inputEmail4">
+    <input type="text" value="<?= $products['prod_name'] ?>"  name="prodName" class="form-control" id="inputEmail4">
   </div>
   <div class="col-md-6">
     <label for="inputPassword4" class="form-label">Product Price</label>
-    <input type="text" value="<?= $data['prod_price'] ?>"  name="prodPrice" class="form-control" id="inputPassword4">
+    <input type="text" value="<?= $products['prod_price'] ?>"  name="prodPrice" class="form-control" id="inputPassword4">
   </div>
   <div class="col-12">
     <label for="inputAddress" class="form-label">Product Description</label>
-    <input type="text" value="<?= $data['prod_desc'] ?>" name="prodDesc" class="form-control" id="inputAddress">
+    <input type="text" value="<?= $products['prod_desc'] ?>" name="prodDesc" class="form-control" id="inputAddress">
   </div>
 
 
   <div class="col-12">
-    <button type="submit" name="prodBtn" class="btn btn-primary">Add Product</button>
+    <button type="submit" name="prodBtn" class="btn btn-primary">Update Product</button>
   </div>
 </form>
     </div>
